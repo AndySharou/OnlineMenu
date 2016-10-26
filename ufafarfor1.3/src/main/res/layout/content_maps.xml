@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_maps"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.andrew.ufafarfor13.MainActivity"
+    tools:showIn="@layout/app_bar_maps"
+    android:padding="0dp">
+
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+
+    tools:context="com.example.andrew.ufafarfor13.MapsActivity"
+    android:layout_height="400dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/map"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Cafe_1 \r\n
+                г.Минск, проспект Независимости 161б \r\n
+                время работы \r\n
+                пн-вс: 8-23 \r\n \r\n"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView16"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+            <TextView
+                android:text="Cafe_2 \r\n
+                г.Минск, Инженерная, 1Б/1 \r\n
+                время работы \r\n
+                пн-вс: 8-23 \r\n"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView17"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/common_google_signin_btn_text_dark_default" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

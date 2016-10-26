@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Ufafarfor1.3</string>
+    <string name="main_activity_name">Меню</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="namelabel">"Название : "</string>
+    <string name="pricelabel">"Цена : "</string>
+    <string name="weightlabel">"Вес : "</string>
+    <string name="descriptionlabel">"Описание : "</string>
+    <string name="set_name">Sets</string>
+    <string name="item_name">Item</string>
+    <string name="title_activity_maps">Контакты</string>
+</resources>
