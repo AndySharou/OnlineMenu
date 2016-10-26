@@ -21,9 +21,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Andrew on 08.09.2016.
- */
+
 public class Sets extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // Declare Variables

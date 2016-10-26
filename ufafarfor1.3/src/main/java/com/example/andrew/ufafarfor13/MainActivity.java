@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity
                 Log.i("TAG database", offer.getName());
             }*/
 
-
             //compare current date and date of updating. if not equal = update menu
             if (currentDate.equals(currentServerDateStr) | Database.getInstance().getCatalog().getShop().getOffers() != null) {
                 //Log.i("TAG date equals", currentDate + " " + currentServerDateStr);
@@ -317,7 +316,6 @@ public class MainActivity extends AppCompatActivity
             } catch (Exception e) {
 
                 //Log.e("SimpleTest", e.getMessage());
-
                 Log.e("MY_APP_error!", "Error!", e);
                 e.printStackTrace();
             }
