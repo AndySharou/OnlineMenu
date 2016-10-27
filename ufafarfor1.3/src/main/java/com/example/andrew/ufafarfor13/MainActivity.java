@@ -18,10 +18,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+
 import org.simpleframework.xml.core.Persister;
+
 import java.io.Reader;
 import java.io.StringReader;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        //Find current date
+        /*//Find current date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         currentDate = sdf.format(new Date());
         //Log.i("TAG current date", currentDate);
@@ -88,22 +89,22 @@ public class MainActivity extends AppCompatActivity
 
         //get menu updating date from Shared Preferences
         sPref = getPreferences(MODE_PRIVATE);
-        String savedText = sPref.getString(SAVED_DATE, "");
+        String savedText = sPref.getString(SAVED_DATE, "");*/
 
         checkDate = false;
 
         try {
             //get date to proper format
-            currentServerDate = sdf.parse(savedText);
+           /* currentServerDate = sdf.parse(savedText);
             //Log.i("TAG current S date", currentServerDate.toString());
-            currentServerDateStr = sdf.format(currentServerDate);
+            currentServerDateStr = sdf.format(currentServerDate);*/
 
             /*for (Offer offer : Database.getInstance().getCatalog().getShop().getOffers()) {
                 Log.i("TAG database", offer.getName());
             }*/
 
             //compare current date and date of updating. if not equal = update menu
-            if (currentDate.equals(currentServerDateStr) | Database.getInstance().getCatalog().getShop().getOffers() != null) {
+            if (Database.getInstance().getCatalog().getShop().getOffers() != null) {
                 //Log.i("TAG date equals", currentDate + " " + currentServerDateStr);
                 checkDate = true;
             } else {
@@ -308,10 +309,10 @@ public class MainActivity extends AppCompatActivity
                 //Log.i("TAG database date", yml_catalog.getDate());
 
                 // Find date of updating menu and wright it in Shared Preferences
-                sPref = getPreferences(MODE_PRIVATE);
+                /*sPref = getPreferences(MODE_PRIVATE);
                 SharedPreferences.Editor ed = sPref.edit();
                 ed.putString(SAVED_DATE, yml_catalog.getDate());
-                ed.apply();
+                ed.apply();*/
 
             } catch (Exception e) {
 

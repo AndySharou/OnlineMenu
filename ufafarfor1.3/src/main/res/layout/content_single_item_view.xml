@@ -26,7 +26,7 @@
         android:layout_below="@+id/picture"
         android:layout_alignParentStart="true"
         android:paddingLeft="30dp"
-        />
+        android:text="Name" />
 
     <TextView
         android:id="@+id/price"
@@ -35,7 +35,8 @@
 
         android:layout_below="@+id/name"
         android:layout_alignParentStart="true"
-        android:paddingLeft="40dp" />
+        android:paddingLeft="40dp"
+        android:text="Price" />
 
     <TextView
         android:id="@+id/weight"
@@ -44,7 +45,8 @@
 
         android:layout_below="@+id/price"
         android:layout_alignParentStart="true"
-        android:paddingLeft="50dp" />
+        android:paddingLeft="50dp"
+        android:text="Weight" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -59,6 +61,7 @@
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/description"
              />
     </ScrollView>
 
