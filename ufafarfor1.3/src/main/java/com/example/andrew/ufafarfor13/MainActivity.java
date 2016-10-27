@@ -2,7 +2,6 @@ package com.example.andrew.ufafarfor13;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -23,7 +22,6 @@ import org.simpleframework.xml.core.Persister;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -45,13 +43,9 @@ public class MainActivity extends AppCompatActivity
     ImageView warm;
     String categoryId = "";
     String setsToolbarName = "";
-    SharedPreferences sPref;
-    String SAVED_DATE = "saved_date";
-    boolean checkDate;
+
+    boolean checkData;
     private static final String TAG = "myLogs";
-    String currentDate;
-    Date currentServerDate;
-    String currentServerDateStr;
 
 
     @Override
@@ -81,35 +75,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        /*//Find current date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        currentDate = sdf.format(new Date());
-        //Log.i("TAG current date", currentDate);
-
-
-        //get menu updating date from Shared Preferences
-        sPref = getPreferences(MODE_PRIVATE);
-        String savedText = sPref.getString(SAVED_DATE, "");*/
-
-        checkDate = false;
+        checkData = false;
 
         try {
-            //get date to proper format
-           /* currentServerDate = sdf.parse(savedText);
-            //Log.i("TAG current S date", currentServerDate.toString());
-            currentServerDateStr = sdf.format(currentServerDate);*/
 
-            /*for (Offer offer : Database.getInstance().getCatalog().getShop().getOffers()) {
-                Log.i("TAG database", offer.getName());
-            }*/
-
-            //compare current date and date of updating. if not equal = update menu
+            //check if there is offers to show
             if (Database.getInstance().getCatalog().getShop().getOffers() != null) {
-                //Log.i("TAG date equals", currentDate + " " + currentServerDateStr);
-                checkDate = true;
-            } else {
-                //Log.i("TAG date not equals", currentDate + " " + currentServerDateStr);
 
+                checkData = true;
             }
 
         } catch (Exception e) {
@@ -118,7 +91,7 @@ public class MainActivity extends AppCompatActivity
 
 
         // update menu
-        if (!checkDate) {
+        if (!checkData) {
 
             new DownloadXML().execute();
         }
@@ -305,14 +278,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 Yml_Catalog yml_catalog = serializer.read(Yml_Catalog.class, readerer, false);
                 Database.getInstance().setCatalog(yml_catalog);
-                // for (Offer offer : Database.getInstance().getCatalog().getShop().getOffers()) {Log.i("TAG database", offer.getName()); }
-                //Log.i("TAG database date", yml_catalog.getDate());
 
-                // Find date of updating menu and wright it in Shared Preferences
-                /*sPref = getPreferences(MODE_PRIVATE);
-                SharedPreferences.Editor ed = sPref.edit();
-                ed.putString(SAVED_DATE, yml_catalog.getDate());
-                ed.apply();*/
 
             } catch (Exception e) {
 
