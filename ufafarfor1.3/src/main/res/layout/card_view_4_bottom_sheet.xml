@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:id="@+id/cv"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="223dp"
+            android:padding="8dp"
+            >
+            <ImageView
+                android:layout_width="80dp"
+                android:id="@+id/cafe_photo"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="16dp"
+                android:layout_height="60dp"
+                android:padding="4dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cafe_name"
+                android:layout_toRightOf="@+id/cafe_photo"
+                android:layout_alignParentTop="true"
+                android:textSize="30sp"
+                android:text="Los Pollos Hermanos"
+                android:padding="4dp" />
+
+            <TextView
+                android:text="Время работы: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cafe_tel_mts"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/textView4"
+                android:textSize="16sp" />
+
+            <TextView
+                android:text="пн-вс: 8-23"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/textView4"
+                android:layout_toEndOf="@+id/textView4"
+                android:id="@+id/cafe_working_hours"
+                android:textSize="16sp"
+                android:layout_width="100dp" />
+
+            <TextView
+                android:text="(029) 5666666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cafe_tel_mts"
+                android:textSize="16sp"
+                android:layout_below="@+id/cafe_tel_vel"
+                android:layout_toEndOf="@+id/textView4" />
+
+            <TextView
+                android:text="(029) 3666666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cafe_tel_vel"
+                android:textSize="16sp"
+                android:layout_below="@+id/cafe_tel_land_line"
+                android:layout_alignStart="@+id/cafe_tel_mts" />
+
+            <TextView
+                android:text="(017) 2666666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cafe_tel_land_line"
+                android:layout_below="@+id/cafe_adr"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:layout_alignStart="@+id/cafe_tel_vel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cafe_adr"
+                android:text="12000 – 12100 Coors Rd SW, Albuquerque NM, 87045"
+                android:textSize="20sp"
+                android:layout_below="@+id/cafe_name"
+                android:layout_toEndOf="@+id/textView7"
+                android:paddingTop="5dp" />
+
+            <TextView
+                android:text="Телефоны: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/cafe_tel_land_line"
+                android:layout_alignParentStart="true"
+                android:id="@+id/textView8"
+                android:textSize="16sp" />
+
+            <Button
+                android:text="Показать \r\n на карте"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnShowOnMap"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/cafe_adr"
+                android:layout_alignParentBottom="true" />
+
+            <TextView
+                android:text="Адрес: "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView7"
+                android:textSize="20sp"
+                android:layout_alignBaseline="@+id/cafe_adr"
+                android:layout_alignBottom="@+id/cafe_adr"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

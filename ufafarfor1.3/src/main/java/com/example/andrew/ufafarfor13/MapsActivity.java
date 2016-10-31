@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -18,9 +19,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,6 +37,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapsActivity extends AppCompatActivity
@@ -48,6 +55,8 @@ public class MapsActivity extends AppCompatActivity
     Location mLastLocation;
     Marker mCurrLocationMarker;
     private GoogleApiClient mGoogleApiClient;
+    private List<Cafe> cafes;
+    private RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +85,18 @@ public class MapsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setHideable(false);
+
+
+
+        rv = (RecyclerView)findViewById(R.id.rv);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+        initializeData();
+        initializeAdapter();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -91,6 +112,22 @@ public class MapsActivity extends AppCompatActivity
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+    }
+
+    private void initializeData(){
+        cafes = new ArrayList<>();
+        cafes.add(new Cafe("Кафе Уно", "ул. Упячная, 64", "(017) 2666666", "(029) 3666666",
+                "(029) 5666666", "вс-чт: 10-21 пт-сб: 10-24" , R.drawable.header_ufafarfor));
+        cafes.add(new Cafe("Кафе Дуо", "пер. Вдогненний, 85", "(017) 2777777", "(029) 3777777",
+                "(029) 5777777", "вс-чт: 10-21 пт-сб: 10-24", R.drawable.header_ufafarfor));
+        cafes.add(new Cafe("Кафе Трэо", "пр. Шмыгалово, 186", "(017) 2888888", "(029) 3888888",
+                "(029) 5888888", "вс-чт: 10-21 пт-сб: 10-24", R.drawable.header_ufafarfor));
+
+    }
+
+    private void initializeAdapter(){
+        RVAdapter adapter = new RVAdapter(cafes);
+        rv.setAdapter(adapter);
     }
 
 

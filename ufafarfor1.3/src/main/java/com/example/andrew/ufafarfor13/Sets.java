@@ -89,7 +89,7 @@ public class Sets extends AppCompatActivity implements NavigationView.OnNavigati
         // Locate the listview in activity_sets.xml
         listview = (ListView) findViewById(R.id.listview);
         // Pass the results into ListViewAdapter.java
-        //adapter = new ListViewAdapter(Sets.this, arraylist);
+
         adapter = new ListViewAdapter(Sets.this, offerlist);
         // Binds the Adapter to the ListView
         listview.setAdapter(adapter);

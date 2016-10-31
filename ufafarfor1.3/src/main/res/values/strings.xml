@@ -6,6 +6,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="bottom_sheet_peek">Контакты</string>
 
     <string name="namelabel">"Название : "</string>
     <string name="pricelabel">"Цена : "</string>
