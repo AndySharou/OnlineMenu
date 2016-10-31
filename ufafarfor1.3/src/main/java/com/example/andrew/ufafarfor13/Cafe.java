@@ -10,6 +10,7 @@ class Cafe {
     String workHours;
     int photoId;
 
+
     Cafe(String name, String address, String telLandLine, String telVel, String telMts, String workHours, int photoId) {
         this.name = name;
         this.address = address;
