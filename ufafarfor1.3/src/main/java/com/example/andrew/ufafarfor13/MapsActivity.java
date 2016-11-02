@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -57,6 +56,7 @@ public class MapsActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private List<Cafe> cafes;
     private RecyclerView rv;
+    boolean checkLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +64,20 @@ public class MapsActivity extends AppCompatActivity
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        checkLocation = false;
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                checkLocation = true;
+               onLocationChanged(mLastLocation);
             }
         });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -89,14 +92,25 @@ public class MapsActivity extends AppCompatActivity
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
         bottomSheetBehavior.setHideable(false);
 
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                fab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+            }
+        });
+
 
 
         rv = (RecyclerView)findViewById(R.id.rv);
-
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         initializeData();
         initializeAdapter();
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -104,6 +118,9 @@ public class MapsActivity extends AppCompatActivity
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
+
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        //bottomSheetBehavior.setPeekHeight(340);
 
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
@@ -116,9 +133,9 @@ public class MapsActivity extends AppCompatActivity
 
     private void initializeData(){
         cafes = new ArrayList<>();
-        cafes.add(new Cafe("Кафе Уно", "ул. Упячная, 64", "(017) 2666666", "(029) 3666666",
+        cafes.add(new Cafe("Кафе Уно", "проспект Независимости 161б", "(017) 2666666", "(029) 3666666",
                 "(029) 5666666", "вс-чт: 10-21 пт-сб: 10-24" , R.drawable.header_ufafarfor));
-        cafes.add(new Cafe("Кафе Дуо", "пер. Вдогненний, 85", "(017) 2777777", "(029) 3777777",
+        cafes.add(new Cafe("Кафе Дуо", "Инженерная, 1Б/1", "(017) 2777777", "(029) 3777777",
                 "(029) 5777777", "вс-чт: 10-21 пт-сб: 10-24", R.drawable.header_ufafarfor));
         cafes.add(new Cafe("Кафе Трэо", "пр. Шмыгалово, 186", "(017) 2888888", "(029) 3888888",
                 "(029) 5888888", "вс-чт: 10-21 пт-сб: 10-24", R.drawable.header_ufafarfor));
@@ -131,6 +148,8 @@ public class MapsActivity extends AppCompatActivity
     }
 
 
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -138,9 +157,11 @@ public class MapsActivity extends AppCompatActivity
         // Add a marker in Sydney and move the camera
         LatLng cafe_1 = new LatLng(53.9380199,27.6620839);
         LatLng cafe_2 = new LatLng(53.8281879,27.6887718);
-        LatLng city = new LatLng(53.8964487,27.6190049);
-        mMap.addMarker(new MarkerOptions().position(cafe_1).title("проспект Независимости 161б"));
-        mMap.addMarker(new MarkerOptions().position(cafe_2).title("Инженерная, 1Б/1"));
+        LatLng cafe_3 = new LatLng(53.920893, 27.509928);
+        LatLng city = new LatLng(53.8220885,27.5813735);
+        mMap.addMarker(new MarkerOptions().position(cafe_1).title("Кафе Уно, Независимости 161б"));
+        mMap.addMarker(new MarkerOptions().position(cafe_2).title("Кафе Дуо, Инженерная, 1Б/1"));
+        mMap.addMarker(new MarkerOptions().position(cafe_3).title("Кафе Трэо, Тимирязева, 65"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(city, 10));
 
 
@@ -202,14 +223,18 @@ public class MapsActivity extends AppCompatActivity
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
-        //move map camera
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        //mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+        if (checkLocation) {
+
+            //move map camera
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+            checkLocation = false;
 
         /*//stop location updates
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }*/
+        }
 
     }
 
