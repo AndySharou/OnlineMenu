@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -45,7 +46,7 @@ public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback, LocationListener,
         NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, RVAdapter.AdapterShowOnMap {
 
     private GoogleMap mMap;
     int location = -1;
@@ -57,6 +58,15 @@ public class MapsActivity extends AppCompatActivity
     private List<Cafe> cafes;
     private RecyclerView rv;
     boolean checkLocation;
+    String cafeShowOnMapLatLng ="";
+    String cafeCheckString;
+    String[] latlong;
+    LatLng cafeLocation;
+    private static final String TAG = "myLogs";
+    private RVAdapter adapter;
+    BottomSheetBehavior bottomSheetBehavior;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +99,7 @@ public class MapsActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
         bottomSheetBehavior.setHideable(false);
 
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -103,13 +113,46 @@ public class MapsActivity extends AppCompatActivity
             }
         });
 
+        cafeShowOnMapLatLng = null;
+
+        Intent showOnMap = getIntent();
+        try {
+
+
+            Log.i("Button pushed3", "trying to start initialShowOnMap");
+
+            //Log.i("Button pushed4", "getExtras is not empty");
+            //Intent showOnMap = getIntent();
+            //cafeCheckString = showOnMap.getStringExtra("justToCheck");
+            //Log.i("Button pushed5", cafeCheckString);
+            cafeShowOnMapLatLng = showOnMap.getStringExtra ("cafeLatlng");
+            Log.i("Button pushed55", cafeShowOnMapLatLng);
+            //getIntent().removeExtra("cafeLatlng");
+           // getIntent().removeExtra("justToCheck");
+
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+
 
 
         rv = (RecyclerView)findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
         initializeData();
-        initializeAdapter();
+
+
+
+        this.adapter = new RVAdapter(cafes, this);
+        rv.setAdapter(adapter);
+        //initializeAdapter();
+        // initialShowOnMap();
+
+
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -129,40 +172,61 @@ public class MapsActivity extends AppCompatActivity
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+
     }
 
     private void initializeData(){
         cafes = new ArrayList<>();
-        cafes.add(new Cafe("Кафе Уно", "проспект Независимости 161б", "(017) 2666666", "(029) 3666666",
+        cafes.add(new Cafe("Кафе Уно", "проспект Независимости 161б", "53.9380199,27.6620839", "(017) 2666666", "(029) 3666666",
                 "(029) 5666666", "вс-чт: 10-21 пт-сб: 10-24" , R.drawable.header_ufafarfor));
-        cafes.add(new Cafe("Кафе Дуо", "Инженерная, 1Б/1", "(017) 2777777", "(029) 3777777",
+        cafes.add(new Cafe("Кафе Дуо", "Инженерная, 1Б/1", "53.8281879,27.6887718", "(017) 2777777", "(029) 3777777",
                 "(029) 5777777", "вс-чт: 10-21 пт-сб: 10-24", R.drawable.header_ufafarfor));
-        cafes.add(new Cafe("Кафе Трэо", "пр. Шмыгалово, 186", "(017) 2888888", "(029) 3888888",
+        cafes.add(new Cafe("Кафе Трэо", "Тимирязева, 65", "53.920893,27.509928", "(017) 2888888", "(029) 3888888",
                 "(029) 5888888", "вс-чт: 10-21 пт-сб: 10-24", R.drawable.header_ufafarfor));
 
     }
 
-    private void initializeAdapter(){
+   /* private void initializeAdapter(){
         RVAdapter adapter = new RVAdapter(cafes);
         rv.setAdapter(adapter);
-    }
-
-
+    }*/
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+        // Add markers and move the camera
         LatLng cafe_1 = new LatLng(53.9380199,27.6620839);
         LatLng cafe_2 = new LatLng(53.8281879,27.6887718);
-        LatLng cafe_3 = new LatLng(53.920893, 27.509928);
+        LatLng cafe_3 = new LatLng(53.920893,27.509928);
         LatLng city = new LatLng(53.8220885,27.5813735);
         mMap.addMarker(new MarkerOptions().position(cafe_1).title("Кафе Уно, Независимости 161б"));
         mMap.addMarker(new MarkerOptions().position(cafe_2).title("Кафе Дуо, Инженерная, 1Б/1"));
         mMap.addMarker(new MarkerOptions().position(cafe_3).title("Кафе Трэо, Тимирязева, 65"));
+
+        if (cafeShowOnMapLatLng != null) {
+            latlong =  cafeShowOnMapLatLng.split(",");
+            double cafeLatitude = Double.parseDouble(latlong[0]);
+            double cafeLongitude = Double.parseDouble(latlong[1]);
+            cafeLocation = new LatLng(cafeLatitude, cafeLongitude);
+            bottomSheetBehavior.setState(bottomSheetBehavior.STATE_COLLAPSED);
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cafeLocation, 15));
+
+            //Log.i("Button pushed5", cafeShowOnMapLatLng);
+            cafeShowOnMapLatLng = null;
+
+
+
+        } else {
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(city, 10));
+
+        }
+
+
 
 
     }
@@ -185,7 +249,7 @@ public class MapsActivity extends AppCompatActivity
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            locationManager.requestLocationUpdates(provider, 400, 1, (LocationListener) this);
+            locationManager.requestLocationUpdates(provider, 30000, 10, (LocationListener) this);
 
         }
     }
@@ -305,6 +369,21 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void initialShowOnMap() {
+
+
+
+        //Intent refresh = new Intent(this, MapsActivity.class);
+        //startActivity(refresh);//Start the same Activity
+        finish();
+
+
+
+
 
     }
 }
