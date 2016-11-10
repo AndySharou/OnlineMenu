@@ -218,15 +218,11 @@ public class MapsActivity extends AppCompatActivity
             //Log.i("Button pushed5", cafeShowOnMapLatLng);
             cafeShowOnMapLatLng = null;
 
-
-
         } else {
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(city, 10));
 
         }
-
-
 
 
     }
