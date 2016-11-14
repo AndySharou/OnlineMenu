@@ -9,6 +9,8 @@ Libraries and tools included:
     RecyclerViews and CardViews
     Google Maps
     Simple XML
+    
+App built using Gradle in Android Studio
    
 
 ![alt tag] (https://github.com/AndySharou/OnlineMenu/blob/master/readmeImages/ufa_1.jpg)
