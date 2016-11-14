@@ -1,14 +1,7 @@
 # OnlineMenu
 Model of OnlineMenu
 
-Model of OnlineMenu (XML parsing, Singleton, RecyclerView, Fragments, GoogleMaps, Navigation Drawer, Bottom sheets, etc).
-
-Libraries and tools included:
-
-    Support libraries
-    RecyclerViews and CardViews
-    Google Maps
-    Simple XML
+Model of OnlineMenu (XML parsing, Singleton, Listview, Cardview, RecyclerView, Fragments, GoogleMaps, Navigation Drawer, Bottom sheets, Floating Action Button, etc).
     
 App built using Gradle in Android Studio
    
